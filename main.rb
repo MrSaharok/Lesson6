@@ -140,14 +140,14 @@ class Main
     puts "Please enter number train in format XXX-XX or XXXXX:"
     train_number = gets.chomp
     puts "Choose the type of train (1)Cargo or (2)Passenger"
-    type = gets.chomp
-    if type == '1'
-      @trains << CargoTrain.new(train_number)
-    elsif type == '2'
-      @trains << PassengerTrain.new(train_number)
+    type = gets.chomp.to_i
+      @trains << CargoTrain.new(train_number) if type == 1
+      @trains << PassengerTrain.new(train_number) if type == 2
+    unless (1..2).cover?(type)
+      raise 'Error! Please enter 1 or 2.'
     end
     puts "Train: #{train_number} created!"
-  rescue RuntimeError => e
+  rescue StandardError => e
     puts e.message
     retry
   end
