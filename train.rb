@@ -94,9 +94,8 @@ class Train
   def validate!
     raise "Number can't be Nil!" if number.nil?
     raise "Number can't be EMPTY!" if number.to_s.empty?
-    raise "Number should be at least 5 symbols" if 0 < number.strip.length && number.strip.length < 5
+    raise "Number should be at least 5 symbols" if 0 < number.strip.length && number.strip.length > 5
     raise "The valid number must be of the form: XXX-XX or XXXXX" if number !~ NUMBER_FORMAT
     raise "Type can't be nil" if type.nil?
-    raise "Type should be at least 5 symbols" if type.length < 5
   end
 end
