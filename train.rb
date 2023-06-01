@@ -1,6 +1,6 @@
 require_relative 'station'
 require_relative 'route'
-require_relative 'validator'
+require_relative 'validation'
 require_relative 'name_company'
 
 class Train
