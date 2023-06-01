@@ -1,34 +1,31 @@
 require_relative 'station'
 require_relative 'route'
+require_relative 'validator'
+require_relative 'name_company'
 
 class Train
   include NameCompany
   include InstanceCounter
+  include Validation
   attr_reader :number, :type, :wagons, :routes, :speed, :current_station_index
 
   NUMBER_FORMAT = /^[a-z\d]{3}-?[a-z\d]{2}$/i
 
   @@trains = {}
 
-  def initialize(number, type)
+  def initialize(number)
     @number = number
     @type = type
+    validate!
     @wagons = []
     @speed = 0
     @current_station_index = 0
     @@trains[number] = self
     register_instance
-    validate!
   end
 
   def to_s
     @number
-  end
-
-  def valid?
-    validate!
-  rescue RuntimeError
-    false
   end
 
   def speed_up(speed)
@@ -90,12 +87,14 @@ class Train
   end
 
   protected
-
   def validate!
-    raise "Number can't be Nil!" if number.nil?
-    raise "Number can't be EMPTY!" if number.to_s.empty?
-    raise "Number should be at least 5 symbols" if 0 < number.strip.length && number.strip.length > 5
-    raise "The valid number must be of the form: XXX-XX or XXXXX" if number !~ NUMBER_FORMAT
-    raise "Type can't be nil" if type.nil?
+    errors = []
+
+    errors << "Number can't be Nil!" if number.nil?
+    errors << "Number can't be EMPTY!" if number.empty?
+    errors << "Number should be at least 5 symbols" if 0 < number.length && number.length > 6
+    errors << "The valid number must be of the form: XXX-XX or XXXXX" if number !~ NUMBER_FORMAT
+
+    raise errors.join('.') unless errors.empty?
   end
 end
