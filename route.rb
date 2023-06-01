@@ -1,4 +1,4 @@
-require_relative 'validator'
+require_relative 'validation'
 
 class Route
   include InstanceCounter
