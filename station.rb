@@ -1,27 +1,23 @@
 require_relative 'modul'
+require_relative 'validator'
 
 class Station
   include InstanceCounter
+  include Validation
   attr_reader :name, :trains
 
   @@stations = []
 
   def initialize(name)
     @name = name
+    validate!
     @trains = []
     @@stations << self
     register_instance
-    validate!
   end
 
   def to_s
     @name
-  end
-
-  def valid?
-    validate!
-  rescue RuntimeError
-    false
   end
 
   def add_train(train)
@@ -43,9 +39,12 @@ class Station
   protected
 
   def validate!
-    raise "Name station can't be nil!" if name.nil?
-    raise "Name station can't be Empty!" if name.strip.empty?
-    raise "Name station should be at least 5 symbols" if name.length < 4
-    true
+    errors = []
+
+    errors << "Name station can't be nil!" if name.nil?
+    errors << "Name station can't be Empty!" if name.strip.empty?
+    errors << "Name station should be at least 5 symbols" if name.length < 4
+
+    raise errors.join('.') unless errors.empty?
   end
 end
