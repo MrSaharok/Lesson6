@@ -1,5 +1,5 @@
 require_relative 'instance_counter'
-require_relative 'validator'
+require_relative 'validation'
 
 class Station
   include InstanceCounter
