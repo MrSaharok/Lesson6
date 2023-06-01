@@ -8,7 +8,23 @@ require_relative 'passenger_wagon'
 require_relative 'cargo_wagon'
 
 class Main
-  def menu
+  def initialize
+    @stations = []
+    @routes = []
+    @trains = []
+  end
+
+  def start
+    loop do
+      show_menu
+      choice = gets.chomp.to_i
+      run(choice)
+    end
+  end
+
+  private
+
+  def show_menu
     puts "
           Station:
           (1)Create a station
@@ -20,8 +36,8 @@ class Main
           Train:
           (6)Create trains
           (7)Add/remove wagons to the train
-          (8)Move the train along the route"
-    run(gets.chomp.to_i)
+          (8)Move the train along the route
+          (9)Exit!"
   end
 
   def run(r)
@@ -45,19 +61,7 @@ class Main
     when 9
       return :exit
     else
-      menu
-    end
-  end
-
-  def initialize
-    @stations = []
-    @routes = []
-    @trains = []
-  end
-
-  def run_main
-    while menu != :exit
-      run(menu)
+      show_menu
     end
   end
 
@@ -68,8 +72,6 @@ class Main
     end
     array[gets.chomp.to_i - 1]
   end
-
-  private
 
   def create_station
     puts "Please enter the name of the station:"
@@ -205,4 +207,4 @@ class Main
 end
 
 go = Main.new
-go.run_main
+go.start
