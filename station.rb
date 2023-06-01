@@ -1,4 +1,4 @@
-require_relative 'modul'
+require_relative 'instance_counter'
 require_relative 'validator'
 
 class Station
