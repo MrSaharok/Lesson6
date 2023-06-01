@@ -1,6 +1,3 @@
-module NameCompany
-  attr_accessor :name_company
-end
 module InstanceCounter
   def self.included(base)
     base.extend ClassMethods
